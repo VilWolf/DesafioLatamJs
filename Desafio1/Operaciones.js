@@ -1,3 +1,5 @@
+/* ESTA FUNCION SE DEBE UTILIZAR EN LA CONSOLA DEL NAVEGADOR O TENER HABILITADO EL PROMPT */
+
 // Función para realizar las operaciones
 function realizarOperaciones() {
     let num1, num2;
