@@ -1,15 +1,15 @@
-// Estructuras de datos
+// Estructuras de datos con 10 recursos cada uno. REQUERIMIENTO 1
 const productos = [
-    { id: 1, nombre: "Camiseta", precio: 150, categoria: "Ropa", stock: 30 },
-    { id: 2, nombre: "Pantalón", precio: 200, categoria: "Ropa", stock: 15 },
-    { id: 3, nombre: "Zapatos", precio: 350, categoria: "Calzado", stock: 25 },
-    { id: 4, nombre: "Gorra", precio: 50, categoria: "Accesorios", stock: 100 },
-    { id: 5, nombre: "Chaqueta", precio: 500, categoria: "Ropa", stock: 8 },
+    { id: 1, nombre: "Camiseta", precio: 1503, categoria: "Ropa", stock: 30 },
+    { id: 2, nombre: "Pantalón", precio: 200300, categoria: "Ropa", stock: 15 },
+    { id: 3, nombre: "Zapatos", precio: 3510, categoria: "Calzado", stock: 25 },
+    { id: 4, nombre: "Gorra", precio: 505, categoria: "Accesorios", stock: 100 },
+    { id: 5, nombre: "Chaqueta", precio: 500200, categoria: "Ropa", stock: 8 },
     { id: 6, nombre: "Zapatillas", precio: 120, categoria: "Calzado", stock: 40 },
     { id: 7, nombre: "Sombrero", precio: 75, categoria: "Accesorios", stock: 5 },
-    { id: 8, nombre: "Bolsos", precio: 250, categoria: "Accesorios", stock: 20 },
+    { id: 8, nombre: "Bolsos", precio: 2500, categoria: "Accesorios", stock: 20 },
     { id: 9, nombre: "Camisa", precio: 180, categoria: "Ropa", stock: 12 },
-    { id: 10, nombre: "Botines", precio: 300, categoria: "Calzado", stock: 18 }
+    { id: 10, nombre: "Botines", precio: 3020, categoria: "Calzado", stock: 18 }
 ];
 
 const ventas = [
@@ -38,7 +38,7 @@ const clientes = [
     { idCliente: 10, nombre: "Paula", email: "paula@mail.com" }
 ];
 
-// 1. Función para obtener los 3 productos más vendidos
+// 1. Función para obtener los 3 productos más vendidos. REQUERIMIENTO 2
 function obtenerProductosMasVendidos() {
     const ventasPorProducto = ventas.reduce((acumulador, venta) => {
         const producto = productos.find(p => p.id === venta.idProducto);
@@ -57,7 +57,7 @@ function obtenerProductosMasVendidos() {
     return productosOrdenados.slice(0, 3);
 }
 
-// 2. Función para calcular ingresos por categoría de producto
+// 2. Función para calcular ingresos por categoría de producto. REQUERIMIENTO 3
 function calcularIngresosPorCategoria() {
     return ventas.reduce((acumulador, venta) => {
         const producto = productos.find(p => p.id === venta.idProducto);
@@ -72,7 +72,7 @@ function calcularIngresosPorCategoria() {
     }, {});
 }
 
-// 3. Función para identificar clientes VIP (gasto > $1,000,000)
+// 3. Función para identificar clientes VIP (gasto > $1,000,000). REQUERIMIENTO 4
 function obtenerClientesVIP() {
     const gastoPorCliente = ventas.reduce((acumulador, venta) => {
         const producto = productos.find(p => p.id === venta.idProducto);
@@ -94,7 +94,7 @@ function obtenerClientesVIP() {
         });
 }
 
-// 4. Función para generar reporte de inventario
+// 4. Función para generar reporte de inventario. REQUERIMIENTO 5
 function generarReporteInventario() {
     return productos.map(producto => {
         let status = "In Stock";
@@ -115,8 +115,7 @@ function generarReporteInventario() {
     });
 }
 
-// Ejecución de las funciones
-
+// Ejecución de las funciones para que se muestre en los logs el json con respuestas
 console.log("Productos más vendidos:");
 console.log(obtenerProductosMasVendidos());
 
