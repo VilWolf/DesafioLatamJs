@@ -1,4 +1,5 @@
-const { Pool } = require("pg");
+import pg from 'pg';
+const { Pool } = pg;
 
 const pool = new Pool({
   host: "127.0.0.1",
@@ -9,7 +10,7 @@ const pool = new Pool({
 });
 
 //Obtener personas
-const obtenerPersonas = async () => {
+export const obtenerPersonas = async () => {
   const { rows } = await pool.query(
     "SELECT * FROM person ORDER BY id ASC"
   );
@@ -17,7 +18,7 @@ const obtenerPersonas = async () => {
 };
 
 // //Agregar persona
-const agregarPersona = async (
+export  const agregarPersona = async (
   firstname,
   lastname,
   gender,
@@ -31,7 +32,7 @@ const agregarPersona = async (
 };
 
 //Actualizar persona
-const actualizarPersona = async (id, firstname) => {
+export const actualizarPersona = async (id, firstname) => {
   const result = await pool.query(
     "UPDATE person SET firstname = $1 WHERE id = $2",
     [firstname, id]
@@ -40,14 +41,14 @@ const actualizarPersona = async (id, firstname) => {
 };
 
 //Borrar persona
-const borrarPersona = async (id) => {
+export const borrarPersona = async (id) => {
   const consulta = "DELETE FROM person WHERE id = $1";
   const values = [id];
   const result = await pool.query(consulta, values);
 };
 
 //Obtener persona mediante ID
-const obtenerPersona = async (id) => {
+export  const obtenerPersona = async (id) => {
   try {
     const client = await pool.connect();
     const { rows } = await client.query(
@@ -60,12 +61,4 @@ const obtenerPersona = async (id) => {
     console.error("Error al obtener la persona:", err);
     throw err;
   }
-};
-
-module.exports = {
-  obtenerPersonas,
-  agregarPersona,
-  actualizarPersona,
-  borrarPersona,
-  obtenerPersona
 };
