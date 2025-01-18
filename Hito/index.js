@@ -1,14 +1,12 @@
 import express from 'express';
-const app = express()
-import https from 'https';
-import fs from 'fs';
+const app = express();
+
+import router from "./src/routes/user.router.js"
 
 import { getPersonas, postPersona, putPersona, deletePersona, getPersona} from './src/routes/persona.route.js';
 import { getMongoPersonas } from './src/routes/mongo.route.js';
 import { sequelize } from './src/database/sequelize.js';
-import { obtenerUsuarios, crearUsuario } from './src/controller/usersController.js';
-
-app.use(express.json());
+import { obtenerUsuarios, crearUsuario } from './src/controller/user.controller.js';
 
 // Función asíncrona para probar la conexión
 async function testConnection() {
@@ -23,6 +21,9 @@ async function testConnection() {
 
 // Ejecutar la prueba
 testConnection();
+
+app.use("api/v4/users", router)
+
 
 app.listen(3000, () => {
   console.log('Servidor ENCENDIDO en el puerto 3000');
@@ -74,3 +75,6 @@ app.get('api/v3/users/', async (req, res) => {
   console.log('users =>', users);
   res.json(users);
 });
+
+app.use(express.json());
+
