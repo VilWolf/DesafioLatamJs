@@ -1,5 +1,7 @@
 import express from 'express';
 const app = express();
+import 'dotenv/config';
+const PORT = process.env.PORT || 3000;
 
 import router from "./src/routes/user.router.js"
 
@@ -24,12 +26,13 @@ testConnection();
 
 app.use("api/v4/users", router)
 
-
-app.listen(3000, () => {
+//Ultima version, usa registrar y logear
+app.listen(PORT, () => {
   console.log('Servidor ENCENDIDO en el puerto 3000');
   sequelize.sync({ force: true });
 });
 
+//Deprecado en seguridad
 //Obtener personas
 app.get('/api/v1/personas/', async (req, res) => {
   const users = await getPersonas();

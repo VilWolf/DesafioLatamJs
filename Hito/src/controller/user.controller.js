@@ -1,6 +1,9 @@
-import { User } from '../models/user.model.js';
+import User from '../models/users.models.js';
 import jwt from 'jsonwebtoken';
-import bcrypt from "bcryptjs/dist/bcryptjs.js"
+import 'dotenv/config';
+import bcrypt from 'bcryptjs/dist/bcrypt.js';
+
+const PORT = process.env.PORT || 3000;
 
 // export const obtenerUsuarios = async () => {
 //   const users = await User.findAll();
@@ -14,41 +17,50 @@ import bcrypt from "bcryptjs/dist/bcryptjs.js"
 //   return nuevoUsuario;
 // };
 
-
-//JWT
-//registrar usuario
+// registrar usuario
 const register = async (req, res) => {
   try {
-    const {name, password } = req.body;
+    const { name, email, password } = req.body;
+    const user = await User.create({ name, email, password });
+    return res.status(201).json(`El usuario fue creado exitosamente`);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 
-    const user = await User.create({name, password});
-    return res.status(201).json(user);
-  }catch (error) {
-    console.log({ error });
+// Logear usuario
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ where: { email: email } });
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ message: 'Las credenciales son incorrectas' });
+    }
+
+    const checkPass = await bcrypt.compare(password, user.password);
+    if (!checkPass) {
+      return res
+        .status(400)
+        .json({ message: 'Las credenciales son incorrectas' });
+    }
+
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    });
+
+    return res.json({ user, token });
+  } catch (error) {
+    console.log(error);
     return res.status(500).json({
       message: error,
     });
   }
 };
 
-//logear usuario
-const login = async (req, res) => {
-  try {
-    
-    const {name, password } = req.body;
-    const user = await User.findOne({ where: {name: name} });
-    if(!user){
-      return res.status(400).json({ message: "Las credenciales ingresadas no son correctas"});
-    }
-    const isMatch = await bcrypt.compare(password, user.password);
-    if(!isMatch) {
-      return res.status(400).json({ message: "El password ingresado no es correcto"});
-    }
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h"
-    });
-    res.json({ user, token });
-  }catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-};
+export const userController = { register, login };

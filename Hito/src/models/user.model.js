@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize';
-import { sequelize } from '../database/sequelize.js';
-import bcrypt from "bcryptjs/dist/bcryptjs.js"
+import sequelize from '../../src/database/sequelize.js';
+import bcrypt from 'bcryptjs/dist/bcrypt.js';
 
-const Users = sequelize.define('USer', {
+const Users = sequelize.define('User', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -10,7 +10,7 @@ const Users = sequelize.define('USer', {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
+    unique: true,
   },
   password: {
     type: DataTypes.STRING,
@@ -19,7 +19,9 @@ const Users = sequelize.define('USer', {
 });
 
 Users.beforeCreate(async (user) => {
+  console.log('pass original: ', user.password);
   user.password = await bcrypt.hash(user.password, 8);
+  console.log('pass hassed: ', user.password);
 });
 
 export default Users;
