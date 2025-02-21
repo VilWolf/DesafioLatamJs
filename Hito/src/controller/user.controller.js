@@ -1,9 +1,6 @@
 import User from '../models/users.models.js';
 import jwt from 'jsonwebtoken';
-import 'dotenv/config';
 import bcrypt from 'bcryptjs/dist/bcrypt.js';
-
-const PORT = process.env.PORT || 3000;
 
 // export const obtenerUsuarios = async () => {
 //   const users = await User.findAll();
